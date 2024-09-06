@@ -10,7 +10,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className='home'>
       <h1>Welcome to the Quiz App</h1>
       <button onClick={startQuiz}>Start Quiz</button>
     </div>

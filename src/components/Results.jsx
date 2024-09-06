@@ -28,10 +28,12 @@ const Result = () => {
   }, [score]);
 
   return (
-    <div>
+    <div className='result'>
       <h1>Your Score: {score} out of 5</h1>
+      <div className='feedback'>
       <h2>Feedback:</h2>
       <p>{feedback}</p>
+      </div>
       <button onClick={restartQuiz}>Restart Quiz</button>
     </div>
   );

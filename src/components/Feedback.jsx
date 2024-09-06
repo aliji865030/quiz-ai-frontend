@@ -14,7 +14,7 @@ const Feedback = () => {
   }, []);
 
   return (
-    <div>
+    <div className='feedback'>
       <h1>Feedback</h1>
       <p>{feedback}</p>
     </div>

@@ -33,9 +33,9 @@ const Quiz = () => {
   }, [currentQuizIndex, navigate, score]);
 
   return (
-    <div>
+    <div className='quiz'>
       {quizzes.length > 0 && currentQuizIndex < 5 && (
-        <div>
+        <div className='quiz-question'>
           <h2>{quizzes[currentQuizIndex].text}</h2>
           {quizzes[currentQuizIndex].options.map((option) => (
             <button key={option} onClick={() => handleAnswer(option)}>
