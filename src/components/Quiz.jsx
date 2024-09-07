@@ -1,48 +1,31 @@
-// Quiz.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { StoreContext } from '../Context/StoreContext';
 
 const Quiz = () => {
-  const [quizzes, setQuizzes] = useState([]);
-  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const navigate = useNavigate();
-  const URL = "https://quiz-ai-backend.onrender.com"
+  const { quizzes, currentQuizIndex, handleAnswer } = useContext(StoreContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchQuizzes = async () => {
-      const res = await axios.get(`${URL}/api/quizzes`);
-      const shuffledQuizzes = res.data.sort(() => Math.random() - 0.5).slice(0, 5);
-      setQuizzes(shuffledQuizzes);
-    };
-    fetchQuizzes();
-  }, []);
-
-  const handleAnswer = (answer) => {
-    if (answer === quizzes[currentQuizIndex].correctAnswer) {
-      setScore(score + 1);
+    if (quizzes.length > 0) {
+      setIsLoading(false);
     }
-    setCurrentQuizIndex(currentQuizIndex + 1);
-  };
-
-  useEffect(() => {
-    if (currentQuizIndex === 5) {
-      navigate('/result', { state: { score } });
-    }
-  }, [currentQuizIndex, navigate, score]);
+  }, [quizzes]);
 
   return (
     <div className='quiz'>
-      {quizzes.length > 0 && currentQuizIndex < 5 && (
-        <div className='quiz-question'>
-          <h2>{quizzes[currentQuizIndex].text}</h2>
-          {quizzes[currentQuizIndex].options.map((option) => (
-            <button key={option} onClick={() => handleAnswer(option)}>
-              {option}
-            </button>
-          ))}
-        </div>
+      {isLoading ? (
+        <div className='loading'>Loading quiz...</div>
+      ) : (
+        currentQuizIndex < 5 && (
+          <div className='quiz-question'>
+            <h2>{quizzes[currentQuizIndex].text}</h2>
+            {quizzes[currentQuizIndex].options.map((option) => (
+              <button key={option} onClick={() => handleAnswer(option)}>
+                {option}
+              </button>
+            ))}
+          </div>
+        )
       )}
     </div>
   );

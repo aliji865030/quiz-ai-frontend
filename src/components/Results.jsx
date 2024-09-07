@@ -1,40 +1,30 @@
-// src/components/Result.js
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { StoreContext } from '../Context/StoreContext';
 
 const Result = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [feedback, setFeedback] = useState('');
-  const URL = "https://quiz-ai-backend.onrender.com"
-
-  const score = location.state.score;
-
-  const restartQuiz = () => {
-    navigate('/quiz');
-  };
+  const { score, feedback, restartQuiz } = useContext(StoreContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFeedback = async () => {
-      try {
-        const response = await axios.post(`${URL}/api/feedback`, { score });
-        setFeedback(response.data.feedback);
-      } catch (error) {
-        console.error('Error fetching feedback:', error);
-      }
-    };
-    fetchFeedback();
-  }, [score]);
+    if (feedback !== '') {
+      setIsLoading(false);
+    }
+  }, [feedback]);
 
   return (
     <div className='result'>
-      <h1>Your Score: {score} out of 5</h1>
-      <div className='feedback'>
-      <h2>Feedback:</h2>
-      <p>{feedback}</p>
-      </div>
-      <button onClick={restartQuiz}>Restart Quiz</button>
+      {isLoading ? (
+        <div className='loading'>Loading feedback...</div>
+      ) : (
+        <>
+          <h1>Your Score: {score} out of 5</h1>
+          <div className='feedback'>
+            <h2>Feedback:</h2>
+            <p>{feedback}</p>
+          </div>
+          <button onClick={restartQuiz}>Restart Quiz</button>
+        </>
+      )}
     </div>
   );
 };

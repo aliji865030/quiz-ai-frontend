@@ -14,7 +14,7 @@
   text-align: center;
 }
 button{
-  padding: 10px 100px;
+  padding: 10px 60px;
   font-size: 18px;
   border: none;
   border-radius: 20px;
@@ -60,6 +60,7 @@ button:hover{
   justify-content: center;
   flex-direction: column;
   gap: 2rem;
+  width: 60%;
 }
 .result .feedback{
   display: flex;
@@ -70,4 +71,11 @@ button:hover{
   font-size: 17px;
   color: rgb(3, 106, 3);
   padding-left: 2rem;
+}
+
+.loading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
 }
